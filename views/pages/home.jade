@@ -10,4 +10,20 @@ block main
 						| URL to Convert
 					input(type="text", name="url", class="form-control", value="http://www.google.com")
 				.form-group
+					label(for="name")
+						| Name (defaults to url)
+					input(type="text", name="name", class="form-control")
+				.form-group
+						label(for="orientation")
+							| Orientation
+						select(name="orientation", class="form-control")
+							option="Portrait"
+							option="Landscape"
+				.form-group
+					include ../partials/pageSizeForm
+				.checkbox
+					label
+						input(type="checkbox", name="grayscale") 
+						| Apply Grayscale
+				.form-group
 					input(type="submit", value="Convert URL to PDF", class="btn btn-primary")

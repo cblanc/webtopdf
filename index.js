@@ -3,12 +3,12 @@ var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
 var wk = require('wkhtmltopdf');
-
+var wkOptions = require(path.join(__dirname, "lib/wkhtmlOptions.js"));
 var PORT = 8000;
 
 app.enable('trust proxy');
 app.disable('x-powered-by');
-app.use(bodyParser())
+app.use(bodyParser());
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, '/public')));
@@ -24,11 +24,18 @@ app.post("/url", function (request, response) {
 });
 
 function handleDownload(request, response, pageRequest) {
+	var options = wkOptions(request.body);
+	var title = request.body.url;
+	if (request.body.name.length > 0) {
+		title = request.body.name;
+	}
+	
 	response.writeHead(200, {
-		"Content-Type": 'application/pdf name="page.pdf"',
-		"Content-Disposition" : 'attachment; filename="page.pdf"'
+		"Content-Type": 'application/pdf name="' + title + '.pdf"',
+		"Content-Disposition" : 'attachment; filename="' + title + '.pdf"'
 	});
-	wk(pageRequest).pipe(response)
+
+	wk(pageRequest, options).pipe(response)
 }
 
 app.use(function (err, request, response, next) {
