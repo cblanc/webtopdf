@@ -1,0 +1,13 @@
+extends ../layouts/default
+
+block main
+	.container
+		.col-xs-12
+			h3 Convert a url to a PDF
+			form(name="urltopdf", action="/url", method="post")
+				.form-group
+					label(for="url")
+						| URL to Convert
+					input(type="text", name="url", class="form-control", value="http://www.google.com")
+				.form-group
+					input(type="submit", value="Convert URL to PDF", class="btn btn-primary")
